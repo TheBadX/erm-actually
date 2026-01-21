@@ -1,0 +1,67 @@
+{
+  "title": "ERM ACTUALLY…",
+  "subtitle_fixed": "lovely made by yuu",
+  "currencyLabel": "pt",
+  "categories": [
+    {
+      "id": "videogiochi",
+      "name": "VIDEOGIOCHI"
+    },
+    {
+      "id": "anime",
+      "name": "ANIME"
+    },
+    {
+      "id": "film",
+      "name": "FILM"
+    },
+    {
+      "id": "internet",
+      "name": "INTERNET"
+    },
+    {
+      "id": "generale",
+      "name": "GENERALE"
+    }
+  ],
+  "values": [
+    100,
+    200,
+    300,
+    400,
+    500
+  ],
+  "questions": {},
+  "scoreboard": {
+    "players": [
+      {
+        "name": "Yuu",
+        "score": 0
+      },
+      {
+        "name": "Giocatore 2",
+        "score": 0
+      },
+      {
+        "name": "Giocatore 3",
+        "score": 0
+      },
+      {
+        "name": "Giocatore 4",
+        "score": 0
+      }
+    ]
+  },
+  "webcam": {
+    "enabled": true,
+    "defaultOn": false,
+    "label": "Presentatore Yuu",
+    "constraints": {
+      "video": {
+        "width": 640,
+        "height": 360
+      },
+      "audio": false
+    }
+  }
+}
