@@ -8,20 +8,20 @@
       "name": "VIDEOGIOCHI"
     },
     {
-      "id": "anime",
-      "name": "ANIME"
+      "id": "storia",
+      "name": "STORIA"
     },
     {
-      "id": "film",
-      "name": "FILM"
+      "id": "serie_tv",
+      "name": "SERIE TV"
     },
     {
       "id": "internet",
       "name": "INTERNET"
     },
     {
-      "id": "generale",
-      "name": "GENERALE"
+      "id": "sport",
+      "name": "SPORT + ESPORT"
     }
   ],
   "values": [
@@ -52,16 +52,9 @@
       }
     ]
   },
-  "webcam": {
+  "chat": {
     "enabled": true,
-    "defaultOn": false,
-    "label": "Presentatore Yuu",
-    "constraints": {
-      "video": {
-        "width": 640,
-        "height": 360
-      },
-      "audio": false
-    }
+    "title": "CHAT LIVE",
+    "url": ""
   }
 }

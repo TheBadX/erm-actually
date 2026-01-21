@@ -5,57 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ERM ACTUALLY — TV</title>
   <style>
-    /* === TV LAYOUT === */
-body{
-  overflow: hidden;
-}
-
-/* barra giocatori in alto */
-#playersBar{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 320px; /* spazio per la chat a destra */
-  height: 96px;
-  padding: 10px 14px;
-  z-index: 40;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.15));
-  backdrop-filter: blur(8px);
-}
-
-/* area principale del gioco */
-#main{
-  position: absolute;
-  top: 96px;       /* sotto la barra giocatori */
-  left: 0;
-  right: 320px;    /* lascia spazio alla chat */
-  bottom: 0;
-  padding: 12px;
-}
-
-/* colonna chat / webcam */
-#sideChat{
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 320px;
-  bottom: 0;
-  background: rgba(0,0,0,.35);
-  border-left: 2px solid rgba(255,255,255,.15);
-  z-index: 30;
-}
     :root{
       --bg1:#0a0b18;
       --bg2:#101235;
       --text:#f3f6ff;
       --muted: rgba(243,246,255,.70);
-
-      --card: rgba(255,255,255,.06);
-      --card2: rgba(255,255,255,.09);
-      --stroke: rgba(255,255,255,.14);
 
       --c1:#22e6ff;
       --c2:#8b5cff;
@@ -63,59 +17,59 @@ body{
 
       --r:18px;
       --gap:12px;
+
+      --topH: 104px;
+      --sideW: 360px;
     }
 
-    html,body{ height:100%; margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial; background:
-      radial-gradient(1000px 700px at 15% 0%, rgba(34,230,255,.35), transparent 60%),
-      radial-gradient(900px 700px at 85% 0%, rgba(139,92,255,.32), transparent 55%),
-      radial-gradient(900px 800px at 50% 100%, rgba(44,255,154,.18), transparent 55%),
-      linear-gradient(180deg, var(--bg2), var(--bg1));
+    html,body{
+      height:100%; margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1000px 700px at 15% 0%, rgba(34,230,255,.35), transparent 60%),
+        radial-gradient(900px 700px at 85% 0%, rgba(139,92,255,.32), transparent 55%),
+        radial-gradient(900px 800px at 50% 100%, rgba(44,255,154,.18), transparent 55%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
       color: var(--text);
       overflow:hidden;
     }
 
-    .topbar{
-      position:fixed; left:12px; right:12px; top:12px; z-index:30;
-      display:flex; align-items:center; justify-content:space-between; gap:12px;
-      padding: 12px 14px;
-      border-radius: calc(var(--r) + 2px);
+    /* ===== TV layout: top bar + side chat ===== */
+    #playersBar{
+      position: fixed;
+      top: 12px;
+      left: 12px;
+      right: calc(var(--sideW) + 12px);
+      height: var(--topH);
+      z-index: 40;
+
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+
+      padding: 10px 12px;
+      border-radius: calc(var(--r) + 6px);
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
       border: 1px solid rgba(255,255,255,.16);
       box-shadow: 0 18px 60px rgba(0,0,0,.35);
-      backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
     }
-    .brand{ display:flex; align-items:baseline; gap:10px; min-width: 280px;}
-    .brand .t{ font-weight:1000; letter-spacing:.6px; font-size: 18px; }
-    .brand .s{ color: var(--muted); font-size: 12px; font-weight:700; letter-spacing:.3px; }
-    .actions{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
-    .pill{
-      display:inline-flex; gap:8px; align-items:center; font-size: 12px;
-      padding: 7px 10px; border-radius: 999px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.20);
-      color: var(--muted);
+
+    .brand{
+      display:flex; flex-direction:column; gap:4px;
+      min-width: 260px;
     }
-    button, .btn{
-      appearance:none;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.24);
-      color: var(--text);
-      padding: 9px 11px;
-      border-radius: 14px;
-      cursor:pointer;
-      font-weight: 900;
-      font-size: 13px;
-      letter-spacing:.2px;
-    }
-    button:hover{ background: rgba(255,255,255,.08); }
-    button:active{ transform: translateY(1px); }
-    .danger{ border-color: rgba(255,120,120,.35); }
-    .ok{ border-color: rgba(44,255,154,.35); }
+    .brand .t{ font-weight: 1100; letter-spacing:.7px; font-size: 18px; }
+    .brand .s{ color: var(--muted); font-size: 12px; font-weight: 800; letter-spacing:.35px; }
 
     .scores{
       display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      justify-content:center;
+      width: 100%;
       max-width: 60vw;
     }
+
     .player{
       display:flex; align-items:center; gap:10px;
       padding: 8px 10px;
@@ -124,6 +78,7 @@ body{
       border: 1px solid rgba(255,255,255,.16);
       box-shadow: inset 0 0 0 1px rgba(34,230,255,.07);
     }
+
     .pname{
       min-width: 90px;
       max-width: 150px;
@@ -132,87 +87,109 @@ body{
       border: 1px solid rgba(255,255,255,.14);
       background: rgba(0,0,0,.18);
       color: var(--text);
-      font-weight: 900;
+      font-weight: 950;
       font-size: 14px;
       outline:none;
     }
+
     .pscore{
       font-variant-numeric: tabular-nums;
-      font-weight: 1000;
-      font-size: 28px;
-      letter-spacing:.5px;
-      padding: 4px 10px;
+      font-weight: 1200;
+      font-size: 30px;
+      letter-spacing:.6px;
+      padding: 6px 12px;
       border-radius: 14px;
       background: linear-gradient(180deg, rgba(34,230,255,.18), rgba(139,92,255,.12));
       border: 1px solid rgba(255,255,255,.14);
-      min-width: 74px;
+      min-width: 86px;
       text-align:center;
     }
-    .mini{
-      padding: 8px 10px;
-      font-size: 18px;
-      border-radius: 12px;
-      background: rgba(0,0,0,.26);
+
+    button, .btn{
+      appearance:none;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+      color: var(--text);
+      padding: 9px 11px;
+      border-radius: 14px;
+      cursor:pointer;
+      font-weight: 950;
+      font-size: 13px;
+      letter-spacing:.2px;
+      user-select:none;
     }
+    button:hover{ background: rgba(255,255,255,.08); }
+    button:active{ transform: translateY(1px); }
+    .danger{ border-color: rgba(255,120,120,.35); }
+    .ok{ border-color: rgba(44,255,154,.35); }
+    .mini{ padding: 8px 10px; font-size: 18px; border-radius: 12px; background: rgba(0,0,0,.26); }
     .mini:hover{ background: rgba(255,255,255,.08); }
     .xbtn{ padding: 7px 9px; font-size: 14px; border-radius: 12px; opacity:.85; }
     .xbtn:hover{ opacity:1; }
 
-    .stage{
-      position:absolute; inset:0;
-      padding: 92px 14px 14px 14px;
+    .actions{
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;
+      min-width: 320px;
+    }
+    .pill{
+      display:inline-flex; gap:8px; align-items:center; font-size: 12px;
+      padding: 7px 10px; border-radius: 999px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    #main{
+      position: absolute;
+      top: calc(var(--topH) + 24px);
+      left: 12px;
+      right: calc(var(--sideW) + 12px);
+      bottom: 12px;
+      padding: 12px;
       box-sizing:border-box;
     }
     .boardCard{
       height: 100%;
-      border-radius: calc(var(--r) + 6px);
+      border-radius: calc(var(--r) + 10px);
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.05));
       border: 1px solid rgba(255,255,255,.14);
       box-shadow: 0 18px 70px rgba(0,0,0,.35);
       overflow:hidden;
-      display:flex;
-      flex-direction:column;
+      display:flex; flex-direction:column;
     }
     .boardInner{ padding: 14px; flex:1; display:flex; flex-direction:column; }
+
     .grid{
       flex:1;
       display:grid;
-      grid-template-columns: 1.2fr repeat(5, 1fr);
       gap: 12px;
       align-items:stretch;
     }
+
     .cat{
       padding: 14px 14px;
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.10));
       border: 1px solid rgba(255,255,255,.16);
-      font-weight: 1000;
+      font-weight: 1100;
       letter-spacing:.7px;
       display:flex; align-items:center;
       box-shadow: inset 0 0 0 1px rgba(139,92,255,.08);
     }
-    .colh{
-      padding: 12px;
-      border-radius: 18px;
-      background: rgba(0,0,0,.22);
-      border: 1px solid rgba(255,255,255,.14);
-      font-weight: 1000;
-      font-size: 16px;
-      text-align:center;
-      display:flex; align-items:center; justify-content:center;
-    }
+
     .cell{
       border-radius: 22px;
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.18));
       border: 2px solid rgba(34,230,255,.22);
       text-align:center;
-      font-size: 26px;
-      font-weight: 1100;
+      font-size: 28px;
+      font-weight: 1200;
       letter-spacing:.4px;
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height: 88px;
+      min-height: 90px;
       user-select:none;
       box-shadow: 0 14px 40px rgba(0,0,0,.18), inset 0 0 0 1px rgba(255,255,255,.10);
     }
@@ -225,6 +202,7 @@ body{
       box-shadow: none;
       transform:none;
     }
+
     .hint{
       margin-top: 10px;
       display:flex; justify-content:space-between; align-items:center; gap:12px;
@@ -232,31 +210,50 @@ body{
       font-size: 12px;
     }
 
-    #webcamCard{
+    /* ===== Side chat panel (interactive for everyone) ===== */
+    #sideChat{
       position: fixed;
-      right: 14px;
-      bottom: 14px;
-      width: 260px;
-      z-index: 40;
-      border-radius: 18px;
-      background: linear-gradient(180deg, rgba(0,0,0,.45), rgba(0,0,0,.25));
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      top: 12px;
+      right: 12px;
+      width: var(--sideW);
+      bottom: 12px;
+      z-index: 30;
+
+      border-radius: calc(var(--r) + 10px);
+      background: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,.22));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow: 0 18px 70px rgba(0,0,0,.35);
       overflow:hidden;
-      display:none;
-      backdrop-filter: blur(6px);
+      display:flex;
+      flex-direction:column;
+      backdrop-filter: blur(8px);
     }
-    #webcamLabel{
-      padding: 10px 12px;
-      font-weight: 1000;
-      letter-spacing:.4px;
+    #chatHeader{
+      padding: 12px 12px;
+      font-weight: 1100;
+      letter-spacing:.6px;
       border-bottom: 1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.06);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
     }
-    video{ width:100%; max-height: 150px; background: rgba(0,0,0,.35); display:block; }
-    .camBtns{ display:flex; gap:8px; padding: 10px; justify-content:space-between; }
-    .camBtns button{ flex:1; padding: 8px 10px; font-size: 12px; border-radius: 12px; }
+    #chatHeader small{ color: var(--muted); font-weight: 800; letter-spacing:.3px; }
+    #chatFrame{
+      border:0;
+      width:100%;
+      height:100%;
+      background: rgba(0,0,0,.20);
+    }
+    #chatEmpty{
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.35;
+    }
 
+    /* ===== Fullscreen Q/A modal ===== */
     .modalBackdrop{
       position:fixed; inset:0;
       background: radial-gradient(900px 700px at 20% 0%, rgba(34,230,255,.22), transparent 55%),
@@ -282,8 +279,8 @@ body{
       border-bottom: 1px solid rgba(255,255,255,.14);
     }
     .mTitle{ display:flex; flex-direction:column; gap:4px; }
-    .mTitle .small{ color: var(--muted); font-size: 12px; font-weight:900; letter-spacing:.35px;}
-    .mTitle h2{ margin:0; font-size: 20px; letter-spacing:.3px; }
+    .mTitle .small{ color: var(--muted); font-size: 12px; font-weight:950; letter-spacing:.35px;}
+    .mTitle h2{ margin:0; font-size: 22px; letter-spacing:.3px; }
     .mActions{ display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; }
     .mBody{
       flex:1;
@@ -294,8 +291,8 @@ body{
       justify-content:center;
     }
     .bigBox{
-      width: min(1200px, 96vw);
-      padding: 26px 26px;
+      width: min(1300px, 96vw);
+      padding: 28px 28px;
       border-radius: 22px;
       background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.18));
       border: 1px solid rgba(255,255,255,.16);
@@ -303,13 +300,14 @@ body{
     }
     .bigText{
       white-space: pre-wrap;
-      font-size: clamp(26px, 2.3vw, 40px);
+      font-size: clamp(28px, 2.4vw, 44px);
       line-height: 1.35;
-      font-weight: 900;
+      font-weight: 1000;
       letter-spacing:.2px;
     }
     .notes{ margin-top: 14px; color: var(--muted); font-size: 14px; }
 
+    /* ===== Settings ===== */
     .settingsArea textarea{
       width:100%;
       min-height: 55vh;
@@ -324,18 +322,49 @@ body{
       font-size: 12px; line-height:1.35;
     }
 
+    /* ===== Public lock: blocks everything EXCEPT chat ===== */
+    body.locked #main,
+    body.locked #playersBar{
+      pointer-events: none;
+    }
+    body.locked #playersBar{
+      opacity: .95;
+    }
+    body.locked #sideChat{
+      pointer-events: auto;
+    }
+
+    #lockedBadge{
+      display:none;
+      position: fixed;
+      left: 22px;
+      bottom: 18px;
+      z-index: 60;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.55);
+      border: 1px solid rgba(255,255,255,.18);
+      color: rgba(243,246,255,.85);
+      font-weight: 950;
+      letter-spacing: .4px;
+      font-size: 12px;
+      backdrop-filter: blur(6px);
+    }
+    body.locked #lockedBadge{ display:block; }
+
     @media (max-width: 1100px){
-      body{ overflow:auto; }
-      .stage{ padding-top: 116px; }
-      .grid{ grid-template-columns: 1fr repeat(3, 1fr); }
-      #webcamCard{ position: static; width:auto; margin-top: 12px; }
+      :root{ --sideW: 320px; --topH: 116px; }
+      html,body{ overflow:auto; }
+      #playersBar{ right: 12px; }
+      #main{ right: 12px; }
+      #sideChat{ position: static; width:auto; height: 60vh; margin: 12px; }
     }
   </style>
 </head>
 
-<body>
+<body class="locked">
 
-<div class="topbar">
+<div id="playersBar">
   <div class="brand">
     <div class="t" id="gameTitle">ERM ACTUALLY…</div>
     <div class="s" id="gameSubtitle">lovely made by yuu</div>
@@ -346,33 +375,40 @@ body{
   <div class="actions">
     <span class="pill" id="usedCount">0/0 usate</span>
     <button id="btnAddPlayer" class="ok">+ Giocatore</button>
-    <button id="btnReset" class="danger">Reset caselle</button>
-    <button id="btnResetAll" class="danger">Reset tutto</button>
+    <button id="btnReset" class="danger">Reset</button>
     <button id="btnSettings">Impostazioni</button>
+    <button id="btnUnlock" class="ok" title="Sblocca con PIN">🔓 PIN</button>
+    <button id="btnLock" class="danger" title="Blocca di nuovo">🔒</button>
   </div>
 </div>
 
-<div class="stage">
+<div id="main">
   <div class="boardCard">
     <div class="boardInner">
       <div id="board" class="grid"></div>
       <div class="hint">
         <div>Click su una casella → domanda. “Segna come usata” per farla sparire.</div>
-        <div style="opacity:.8">Tip: premi <b>Esc</b> per chiudere. <b>Spazio</b> alterna domanda/risposta.</div>
+        <div style="opacity:.85">Esc chiude • Spazio alterna domanda/risposta</div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="webcamCard">
-  <div id="webcamLabel">Presentatore</div>
-  <video id="video" playsinline autoplay muted></video>
-  <div class="camBtns">
-    <button id="btnCamOn" class="ok">Accendi</button>
-    <button id="btnCamOff">Spegni</button>
-    <button id="btnCamFlip">Camera</button>
+<div id="sideChat">
+  <div id="chatHeader">
+    <div id="chatTitle">CHAT LIVE</div>
+    <small id="chatHint">interattiva</small>
+  </div>
+  <div id="chatBody" style="flex:1; min-height:0;">
+    <div id="chatEmpty">
+      Incolla l’URL della chat nel <b>config.json</b> (campo <code>chat.url</code>) oppure nelle <b>Impostazioni</b> e premi Salva.<br><br>
+      Esempi: chat embed Twitch / YouTube / Discord widget / qualsiasi pagina embed.
+    </div>
+    <iframe id="chatFrame" style="display:none;" allow="camera; microphone; clipboard-read; clipboard-write"></iframe>
   </div>
 </div>
+
+<div id="lockedBadge">🔒 SOLO PRESENTATORE • Pubblico bloccato</div>
 
 <div class="modalBackdrop" id="qBackdrop" role="dialog" aria-modal="true">
   <div class="modal">
@@ -414,14 +450,14 @@ body{
     </div>
     <div class="mBody settingsArea" style="align-items:stretch; justify-content:flex-start;">
       <textarea id="settingsJson" spellcheck="false"></textarea>
-      <div class="notes">Suggerimento: modifica categorie, valori, domande, giocatori. Salva → aggiorna. Lo stato “usate” resta.</div>
+      <div class="notes">Suggerimento: modifica categorie, valori, domande, giocatori, chat.url. Salva → aggiorna. Lo stato “usate” resta.</div>
     </div>
   </div>
 </div>
 
 <script>
-const STORAGE_KEY = "ermActuallyTV.state.v1";
-const CONFIG_KEY  = "ermActuallyTV.config.v1";
+const STORAGE_KEY = "ermTVChat.state.v1";
+const CONFIG_KEY  = "ermTVChat.config.v1";
 
 let config = null;
 let state  = null;
@@ -438,27 +474,20 @@ function defaultStateFromConfig(cfg){
   return {
     used,
     players: (cfg.scoreboard?.players ?? []).map(p=>({name:p.name, score:p.score ?? 0})),
-    webcam: { deviceId: null }
   };
 }
 function loadState(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
+  try{ const raw = localStorage.getItem(STORAGE_KEY); return raw ? JSON.parse(raw) : null; }
+  catch(e){ return null; }
 }
-function saveState(){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
+
 function loadConfigFromStorage(){
-  try{
-    const raw = localStorage.getItem(CONFIG_KEY);
-    return raw ? JSON.parse(raw) : null;
-  }catch(e){ return null; }
+  try{ const raw = localStorage.getItem(CONFIG_KEY); return raw ? JSON.parse(raw) : null; }
+  catch(e){ return null; }
 }
-function saveConfigToStorage(cfg){
-  localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg));
-}
+function saveConfigToStorage(cfg){ localStorage.setItem(CONFIG_KEY, JSON.stringify(cfg)); }
+
 async function loadConfig(){
   const stored = loadConfigFromStorage();
   if(stored) return stored;
@@ -467,14 +496,13 @@ async function loadConfig(){
 }
 function mergeStateWithConfig(){
   const fresh = defaultStateFromConfig(config);
+
   for(const k of Object.keys(fresh.used)){
     if(state?.used && k in state.used) fresh.used[k] = !!state.used[k];
   }
   if(Array.isArray(state?.players) && state.players.length){
     fresh.players = state.players.map(p=>({name:p.name ?? "Giocatore", score: Number(p.score)||0}));
   }
-  if(state?.webcam?.deviceId) fresh.webcam.deviceId = state.webcam.deviceId;
-
   state = fresh;
   saveState();
 }
@@ -493,11 +521,7 @@ function el(tag, attrs={}, text=null){
 function renderBoard(){
   const board = $("board");
   board.innerHTML = "";
-
-  board.appendChild(el("div",{class:"cat", style:"justify-content:center; opacity:.85;"}, ""));
-  for(const val of config.values){
-    board.appendChild(el("div",{class:"colh"}, String(val)));
-  }
+  board.style.gridTemplateColumns = `1.2fr repeat(${config.values.length}, 1fr)`;
 
   for(const cat of config.categories){
     board.appendChild(el("div",{class:"cat"}, cat.name));
@@ -551,13 +575,11 @@ function renderScores(){
     wrap.appendChild(row);
   });
 }
-
 function applyDelta(idx, d, scoreEl){
   state.players[idx].score = (Number(state.players[idx].score)||0) + d;
   scoreEl.textContent = String(state.players[idx].score);
   saveState();
 }
-
 function addPlayer(){
   const name = prompt("Nome giocatore:", `Giocatore ${state.players.length+1}`);
   if(!name) return;
@@ -594,7 +616,6 @@ function openQuestion(key){
 
 function toggleQA(){
   if(!openQKey) return;
-
   const q = config.questions?.[openQKey] ?? {prompt:"", answer:"", notes:""};
   showingAnswer = !showingAnswer;
 
@@ -629,6 +650,23 @@ function openSettings(){
 }
 function closeSettings(){ $("sBackdrop").style.display = "none"; }
 
+function applyChat(){
+  const enabled = !!config.chat?.enabled;
+  $("sideChat").style.display = enabled ? "flex" : "none";
+  $("chatTitle").textContent = config.chat?.title ?? "CHAT LIVE";
+
+  const url = (config.chat?.url || "").trim();
+  if(url){
+    $("chatEmpty").style.display = "none";
+    $("chatFrame").style.display = "block";
+    $("chatFrame").src = url;
+  }else{
+    $("chatFrame").removeAttribute("src");
+    $("chatFrame").style.display = "none";
+    $("chatEmpty").style.display = "block";
+  }
+}
+
 function saveSettingsFromTextarea(){
   try{
     const next = JSON.parse($("settingsJson").value);
@@ -639,10 +677,9 @@ function saveSettingsFromTextarea(){
     $("gameTitle").textContent = config.title ?? "ERM ACTUALLY…";
     $("gameSubtitle").textContent = config.subtitle_fixed ?? "lovely made by yuu";
 
-    applyWebcamConfig();
+    applyChat();
     renderScores();
     renderBoard();
-
     closeSettings();
   }catch(e){
     alert("JSON non valido: " + e.message);
@@ -670,10 +707,9 @@ function uploadConfigFile(file){
       $("gameTitle").textContent = config.title ?? "ERM ACTUALLY…";
       $("gameSubtitle").textContent = config.subtitle_fixed ?? "lovely made by yuu";
 
-      applyWebcamConfig();
+      applyChat();
       renderScores();
       renderBoard();
-
       closeSettings();
     }catch(e){
       alert("File JSON non valido: " + e.message);
@@ -687,66 +723,27 @@ function resetUsedOnly(){
   saveState();
   renderBoard();
 }
-function resetAll(){
-  if(!confirm("Reset totale? (caselle + punteggi)")) return;
-  localStorage.removeItem(STORAGE_KEY);
-  state = defaultStateFromConfig(config);
-  saveState();
-  renderScores();
-  renderBoard();
-  stopCam();
-}
 
-let stream = null;
-let facingMode = "user";
+/* ===== Presenter PIN lock ===== */
+const HOST_UNLOCK_KEY = "ermTVChat.hostUnlocked.v1";
+const HOST_PIN = "7391"; // <-- CAMBIA QUI IL PIN
 
-async function applyWebcamConfig(){
-  const enabled = !!config.webcam?.enabled;
-  $("webcamCard").style.display = enabled ? "block" : "none";
-  $("webcamLabel").textContent = config.webcam?.label ?? "Presentatore";
-  if(!enabled) stopCam();
-  if(enabled && config.webcam?.defaultOn){
-    await startCam();
-  }
+function isUnlocked(){ return localStorage.getItem(HOST_UNLOCK_KEY) === "1"; }
+
+function lockHost(){
+  localStorage.removeItem(HOST_UNLOCK_KEY);
+  document.body.classList.add("locked");
 }
-async function startCam(){
-  if(!navigator.mediaDevices?.getUserMedia){
-    alert("Browser non supporta webcam.");
-    return;
-  }
-  stopCam();
-  const constraints = config.webcam?.constraints ?? {video:true, audio:false};
-  const videoConstraints = (constraints.video === true) ? {} : (constraints.video || {});
-  if(state.webcam?.deviceId){
-    videoConstraints.deviceId = {exact: state.webcam.deviceId};
+function unlockHost(){
+  const pin = prompt("PIN presentatore:");
+  if(pin === null) return;
+  if(pin === HOST_PIN){
+    localStorage.setItem(HOST_UNLOCK_KEY, "1");
+    document.body.classList.remove("locked");
+    alert("Sbloccato ✅");
   }else{
-    videoConstraints.facingMode = facingMode;
+    alert("PIN errato ❌");
   }
-  try{
-    stream = await navigator.mediaDevices.getUserMedia({ video: videoConstraints, audio: constraints.audio ?? false });
-    const track = stream.getVideoTracks()[0];
-    const settings = track.getSettings?.() || {};
-    if(settings.deviceId){
-      state.webcam.deviceId = settings.deviceId;
-      saveState();
-    }
-    $("video").srcObject = stream;
-  }catch(e){
-    alert("Impossibile avviare webcam: " + e.message);
-  }
-}
-function stopCam(){
-  if(stream){
-    stream.getTracks().forEach(t=>t.stop());
-    stream = null;
-  }
-  $("video").srcObject = null;
-}
-async function flipCam(){
-  state.webcam.deviceId = null;
-  saveState();
-  facingMode = (facingMode === "user") ? "environment" : "user";
-  await startCam();
 }
 
 document.addEventListener("keydown", (e)=>{
@@ -761,13 +758,18 @@ document.addEventListener("keydown", (e)=>{
     e.preventDefault();
     toggleQA();
   }
+  if(e.ctrlKey && e.altKey && e.key.toLowerCase()==="p"){
+    unlockHost();
+  }
 });
 
 $("btnAddPlayer").addEventListener("click", addPlayer);
 $("btnReset").addEventListener("click", resetUsedOnly);
-$("btnResetAll").addEventListener("click", resetAll);
-
 $("btnSettings").addEventListener("click", openSettings);
+
+$("btnUnlock").addEventListener("click", unlockHost);
+$("btnLock").addEventListener("click", lockHost);
+
 $("btnCloseSettings").addEventListener("click", closeSettings);
 $("btnSaveSettings").addEventListener("click", saveSettingsFromTextarea);
 $("btnDownloadConfig").addEventListener("click", downloadConfig);
@@ -777,10 +779,6 @@ $("btnToggleQA").addEventListener("click", toggleQA);
 $("btnMarkUsed").addEventListener("click", ()=>{ if(openQKey) setUsed(openQKey,true); });
 $("btnCloseQ").addEventListener("click", closeQuestion);
 $("qBackdrop").addEventListener("click", (e)=>{ if(e.target === $("qBackdrop")) closeQuestion(); });
-
-$("btnCamOn").addEventListener("click", startCam);
-$("btnCamOff").addEventListener("click", stopCam);
-$("btnCamFlip").addEventListener("click", flipCam);
 
 (async function init(){
   config = await loadConfig();
@@ -798,7 +796,13 @@ $("btnCamFlip").addEventListener("click", flipCam);
 
   renderScores();
   renderBoard();
-  applyWebcamConfig();
+  applyChat();
+
+  if(isUnlocked()){
+    document.body.classList.remove("locked");
+  }else{
+    document.body.classList.add("locked");
+  }
 })();
 </script>
 </body>
