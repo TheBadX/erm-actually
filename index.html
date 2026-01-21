@@ -5,6 +5,48 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>ERM ACTUALLY — TV</title>
   <style>
+    /* === TV LAYOUT === */
+body{
+  overflow: hidden;
+}
+
+/* barra giocatori in alto */
+#playersBar{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 320px; /* spazio per la chat a destra */
+  height: 96px;
+  padding: 10px 14px;
+  z-index: 40;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.15));
+  backdrop-filter: blur(8px);
+}
+
+/* area principale del gioco */
+#main{
+  position: absolute;
+  top: 96px;       /* sotto la barra giocatori */
+  left: 0;
+  right: 320px;    /* lascia spazio alla chat */
+  bottom: 0;
+  padding: 12px;
+}
+
+/* colonna chat / webcam */
+#sideChat{
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  bottom: 0;
+  background: rgba(0,0,0,.35);
+  border-left: 2px solid rgba(255,255,255,.15);
+  z-index: 30;
+}
     :root{
       --bg1:#0a0b18;
       --bg2:#101235;
